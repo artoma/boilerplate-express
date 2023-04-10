@@ -2,16 +2,20 @@ let express = require('express');
 require('dotenv').config();
 let app = express();
 app.use('/public', express.static(__dirname + '/public'));
+app.use((req,res, next) => {
+ console.log(req.method +' '+ req.path +' - '+ req.ip);
+ next();
+})
 absolutePath = __dirname + '/views/index.html'
 app.get('/', (req, res) => {
  res.sendFile(absolutePath);
 })
 app.get('/json', (req,res) => {
- let resposne = {message: "Hello json"}
+ let response = {message: "Hello json"}
  if(process.env.MESSAGE_STYLE  == 'uppercase'){
-  resposne.message = resposne.message.toUpperCase();
+   response.message = response.message.toUpperCase();
  }
- res.json(resposne);
+ res.json(response);
 })
 
 
